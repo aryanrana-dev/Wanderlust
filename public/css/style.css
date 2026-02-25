@@ -1,0 +1,148 @@
+body {
+    background-color: palevioletred;
+    font-family: "Plus Jakarta Sans",sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container {
+    flex: 1;
+}
+.fa-compass {
+    font-size: 2rem;
+    color: #fe424d;
+}
+.navbar {
+    height: 5rem;
+    background-color: white;
+}
+.f-info {
+    height: 8rem;
+    background-color: #ebebeb;
+    color: #222222;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    text-align: center;
+}
+.f-info-brand {
+    width: 100%;
+}
+.f-info-socials,.f-info-links {
+    width: 100%;
+}
+.f-info-socials i {
+    font-size: 1.5rem;
+    margin-right: 20px;
+}
+.f-info-links a {
+    color: #222222;
+    text-decoration: none;
+    margin-right: 10px;
+}
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+.nav-link {
+    padding-right: 15px !important;
+}
+.row-listings {
+    display: flex; 
+    justify-content: space-evenly;
+}
+.listing-card {
+    border: none !important;
+    margin-bottom: 2em !important;
+    margin-right: 2em !important;
+}
+.card-img-top {
+    border-radius: 1rem !important; 
+    padding: 0px !important;
+}
+.home-card-title {
+    margin: 0px;
+    font-weight: 600;
+}
+.home-card-price {
+    font-size: 1rem;
+    color: gray;
+}
+.listing-link {
+    text-decoration: none;
+}
+.card-img-overlay {
+    opacity: 0;
+}
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
+.h-heading {
+    line-height: 6rem;
+}
+.form-label {
+    font-weight: bold;
+}
+.nf-heading {
+    margin-bottom: 2rem;
+}
+.add-btn {
+    background-color: #fe424d !important;
+}
+.show-img {
+    height: 40vh;
+    object-fit: cover;
+}
+.btns {
+    display: flex;
+}
+.del-btn {
+    width: 90px;
+}
+.edit-btn {
+    background-color: #fe424d !important;
+}
+/* --- Filter Component Styles --- */
+  .filters-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 2.5rem;
+    align-items: center;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    /* Hide scrollbar for a cleaner look */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .filters-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    min-width: max-content;
+  }
+
+  .filter-item:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  .filter-item i {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .filter-item p {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }

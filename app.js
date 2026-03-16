@@ -16,7 +16,8 @@ const { MongoStore } = require("connect-mongo");
 const flash = require("connect-flash");      
 const User = require("./models/user.js");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");                                                                                                                                                                                                                                                                                                                                                                                                                                         
+const LocalStrategy = require("passport-local");       
+const rateLimit = require("express-rate-limit");                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 let dbUrl = process.env.MONGODB_ATLAS_URL;
 
@@ -61,6 +62,17 @@ const sessionConfig = {
     }
 }
 
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // limit each IP to 10 requests per windowMs
+    message: "Too many requests from this IP, please try again after 15 minutes",
+    skip: (req, res) => {
+        const methodsToLimit = ["POST", "PUT", "DELETE"];
+        return !methodsToLimit.includes(req.method);
+    }
+});
+
+app.use(limiter);
 app.use(session(sessionConfig));
 app.use(flash());
 

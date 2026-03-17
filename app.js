@@ -16,7 +16,8 @@ const { MongoStore } = require("connect-mongo");
 const flash = require("connect-flash");      
 const User = require("./models/user.js");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");       
+const LocalStrategy = require("passport-local"); 
+const GoogleStrategy = require("passport-google-oauth20").Strategy;      
 const rateLimit = require("express-rate-limit");                                                                                                                                                                                                                                                                                                                                                                                                                                  
 
 let dbUrl = process.env.MONGODB_ATLAS_URL;
@@ -81,6 +82,49 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+passport.use(
+    new GoogleStrategy({
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: "http://localhost:7070/api/auth/google/callback"
+    }, async function(accessToken, refreshToken, profile, done) {
+        try {
+        // 1. Check if this Google user already exists in your DB
+        let user = await User.findOne({ googleId: profile.id });
+
+        if (user) {
+          // User exists, log them in
+          return done(null, user);
+        }
+
+        // 2. If not, check if they signed up with this email previously using a password
+        const email = profile.emails[0].value;
+        let existingEmailUser = await User.findOne({ email: email });
+
+        if (existingEmailUser) {
+          // Link the Google account to the existing email account
+          existingEmailUser.googleId = profile.id;
+          await existingEmailUser.save();
+          return done(null, existingEmailUser);
+        }
+
+        // 3. If completely new user, create them
+        const newUser = new User({
+          email: email,
+          username: profile.displayName.replace(/\s+/g, ''), // Create a username without spaces
+          googleId: profile.id,
+        });
+
+        // Save directly (we don't use User.register because there is no password)
+        await newUser.save();
+        return done(null, newUser);
+
+      } catch (err) {
+        return done(err, null);
+      }
+    })
+);
 
 app.use((req,res,next) => {
     res.locals.success = req.flash("success");

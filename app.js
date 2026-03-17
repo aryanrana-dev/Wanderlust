@@ -87,7 +87,7 @@ passport.use(
     new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:7070/api/auth/google/callback"
+        callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:7070/api/auth/google/callback",
     }, async function(accessToken, refreshToken, profile, done) {
         try {
         // 1. Check if this Google user already exists in your DB
